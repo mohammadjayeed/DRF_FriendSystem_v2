@@ -1,14 +1,13 @@
 from custom_user.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from custom_user.models import User as user
-from django.contrib.auth import authenticate
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework import exceptions
-from rest_framework_simplejwt.serializers import PasswordField
-from django.conf import settings
 from custom_user.backends import UserBackend
 from django.contrib.auth.models import update_last_login
+from rest_framework_simplejwt.tokens import OutstandingToken
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     
     
@@ -47,18 +46,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         data["refresh"] = str(refresh)
         data["access"] = str(refresh.access_token)
+        
+        print(OutstandingToken(data["access"]))
+        
 
         if api_settings.UPDATE_LAST_LOGIN:
             update_last_login(None, self.user)
 
         return data
-    # @classmethod
-    # def get_token(cls, user):
-    #     token = super().get_token(user)
-    #     return token
-
-        
-
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)

@@ -4,7 +4,6 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.hashers import make_password
 
 
 class UserManager(BaseUserManager):
@@ -24,11 +23,6 @@ class UserManager(BaseUserManager):
         other_fields.setdefault('is_staff',True)
         other_fields.setdefault('is_superuser',True)
         other_fields.setdefault('is_active',True)
-
-        # if other_fields.get('is_staff') is not True:
-        #     raise ValueError('staff privilege must be assigned to superuser')
-        # if other_fields.get('is_superuser') is not True:
-        #     raise ValueError('superuser privilege must be assigned to superuser')
 
         return self.create_user(email, user_name, password,**other_fields)
 

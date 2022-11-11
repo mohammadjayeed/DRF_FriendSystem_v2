@@ -1,5 +1,8 @@
 from django.contrib.auth.backends import ModelBackend
 from .models import User
+from django.core.management.utils import get_random_secret_key
+
+
 
 class UserBackend(ModelBackend):
 
