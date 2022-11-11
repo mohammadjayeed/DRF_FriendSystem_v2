@@ -1,9 +1,9 @@
-import random
-
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
 from django.db import models
 from django.utils import timezone
+from .utils import generate_otp
+from uuid import uuid4
 
 
 class UserManager(BaseUserManager):
@@ -31,7 +31,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     
     email = models.EmailField(unique=True)
     user_name = models.CharField(max_length=100, unique=True)
-    otp = models.CharField(max_length=4, default=random.randint(1000, 9999))
+    otp = models.CharField(max_length=4, default=generate_otp)
     start_date = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
