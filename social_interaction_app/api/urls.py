@@ -3,14 +3,13 @@ from . import views
 from rest_framework_nested import routers
 
 router = routers.DefaultRouter()
-router.register('friends',views.ProfileViewSet,basename='friends')
+router.register('posts',views.PostViewSet,basename='posts')
+router.register('friend-posts',views.FriendsPostViewSet,basename='friend-posts')
 
 urlpatterns = [
 
     path('',include(router.urls)),
-    path('invite/',views.AllProfileList.as_view(),name='profile_list'),
-    path('invite/<int:pk>',views.send_invite,name='invite'),
-    path('decline/<int:pk>',views.decline_invite,name='decline')
+   
     
 ]
 

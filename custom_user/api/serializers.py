@@ -47,8 +47,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data["refresh"] = str(refresh)
         data["access"] = str(refresh.access_token)
         
-        print(OutstandingToken(data["access"]))
-        
 
         if api_settings.UPDATE_LAST_LOGIN:
             update_last_login(None, self.user)

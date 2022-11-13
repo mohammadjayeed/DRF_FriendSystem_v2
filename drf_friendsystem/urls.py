@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('custom_user.api.urls')),
     path('app/', include('social_app.api.urls')),
+    path('feed/',include('social_interaction_app.api.urls'))
    
     
 ]

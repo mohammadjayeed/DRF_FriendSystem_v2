@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'custom_user',
     'social_app',
+    'social_interaction_app',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
 ]
@@ -144,8 +145,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(hours=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(hours=5),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
 

@@ -1,9 +1,20 @@
-from django.core.management.utils import get_random_secret_key
+STATUS_CHOICES = {
 
-class SigningKey:
-    def __str__(self):
-        return get_random_secret_key()
+    ('send','send'),
+    ('accepted','accepted'),
+    ('default','default')
 
-print(SigningKey())
-print(SigningKey())
-print(SigningKey())
+}
+
+DEFAULT = 'default'
+SEND = 'send'
+ACCEPT = 'accepted'
+
+STATUS_CHOICES = [
+        (DEFAULT, 'default'),
+        (SEND, 'send'),
+        (ACCEPT, 'accepted'),
+    ]
+
+print(type(STATUS_CHOICES))
+print(STATUS_CHOICES['default'])

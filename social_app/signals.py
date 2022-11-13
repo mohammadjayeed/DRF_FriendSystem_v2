@@ -1,5 +1,5 @@
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 from .models import *
 
@@ -15,10 +15,10 @@ def post_save_send_friend_request(sender, instance, created, **kwargs):
     
     invite_sender = instance.sender
     invite_receiver = instance.receiver
-    print(type(invite_sender))
-    print(type(invite_receiver))
-    print(invite_sender)
-    print(invite_receiver)
+    # print(type(invite_sender))
+    # print(type(invite_receiver))
+    # print(invite_sender)
+    # print(invite_receiver)
 
 
     if instance.status == "accepted":
@@ -26,3 +26,8 @@ def post_save_send_friend_request(sender, instance, created, **kwargs):
         invite_receiver.friends.add(invite_sender.user)
         invite_sender.save()
         invite_receiver.save()
+
+# @receiver(post_delete, sender=Friendship)
+# def post_delete_decline_friend_request(sender,instance,**kwargs):
+#     object = Friendship.objects.get(instance.id)
+    
