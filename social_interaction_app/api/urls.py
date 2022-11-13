@@ -9,6 +9,7 @@ router.register('friend-posts',views.FriendsPostViewSet,basename='friend-posts')
 urlpatterns = [
 
     path('',include(router.urls)),
+    path('like-unlike/<int:pk>/',views.like_unlike_post,name='like-unlike')
    
     
 ]

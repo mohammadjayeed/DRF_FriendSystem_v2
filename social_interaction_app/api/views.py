@@ -5,6 +5,8 @@ from .serializers import *
 from itertools import chain
 from rest_framework import views
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
 
 from .serializers import FriendsPostSerializer
 
@@ -26,13 +28,14 @@ class FriendsPostViewSet(ListModelMixin, GenericViewSet):
         if len(posts)>0:
             qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created_at)
 
-        print(qs)
-        print(type(qs))
         return qs
-        
-        
-       
 
+    def get_serializer_context(self):
+        profile = Profile.objects.get(id=self.request.user.id)
+        post_ = Post.objects.filter(owner_id=self.request.user.id)
+        # like = Like.objects.get(id=self.request.user.id)
+        return {'profile': profile , 'post_':post_} #,'like':like
+        
 
 class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     
@@ -43,3 +46,30 @@ class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
 
     def get_serializer_context(self):
         return {'user_id':self.request.user.id}
+
+@api_view(['POST'])
+def like_unlike_post(request,pk):
+    if request.method == 'POST':
+        post_object = Post.objects.get(id=pk)
+        profile = Profile.objects.get(id = request.user.id)
+
+        if profile in post_object.liked.all():
+            post_object.liked.remove(profile)
+        else:
+            post_object.liked.add(profile)
+
+        like,created = Like.objects.get_or_create(owner=profile, post_id=pk)
+
+        if not created:
+            if like.value == 'Like':
+                like.value = 'Unlike'
+            else:
+                like.value = 'Like'
+            
+            post_object.save()
+            like.save()
+
+        return Response(status=status.HTTP_200_OK)
+            
+
+

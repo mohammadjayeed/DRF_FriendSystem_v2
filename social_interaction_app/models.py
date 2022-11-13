@@ -14,23 +14,26 @@ class Post(models.Model):
         ordering = ('-created_at',)
 
     def __str__(self):
-        return self.post_box[:15]
+        return self.post_box
+LIKE_CHOICES = (
 
+    ('Like','Like'),
+    ('Unlike','Unlike')
+
+)
+class Like(models.Model):
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_liked')
+    value = models.CharField(choices=LIKE_CHOICES, max_length=8)
+
+    def __str__(self):
+        return f"{self.owner} {self.value}D the {self.post}"
 
 class Comment(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
     comment_box = models.TextField(max_length=200)
 
-LIKE_CHOICES = (
-
-    ('Like',True),
-    ('Unlike',False)
-
-)
 
 
-class Like(models.Model):
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    value = models.BooleanField(choices=LIKE_CHOICES)
+
