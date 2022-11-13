@@ -10,7 +10,7 @@ from rest_framework import generics
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-class ProfileViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
+class ProfileViewSet(ListModelMixin, GenericViewSet):
     
     serializer_class = ProfileSerializer
 

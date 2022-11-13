@@ -15,18 +15,18 @@ class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
     serializer_class = FriendsPostSerializer
 
 
-    def get_serializer_class(self):
-        if self.request.method == "POST":
-            return PostSerializer
-        elif self.request.method == "GET":
-            return FriendsPostSerializer
+    # def get_serializer_class(self):
+    #     if self.request.method == "POST":
+    #         return PostSerializer
+    #     elif self.request.method == "GET":
+    #         return FriendsPostSerializer
         
 
         
 
     def get_queryset(self):
 
-        queryset = Profile.objects.get(user = self.request.user)
+        queryset = Profile.objects.prefetch_related('posts').prefetch_related('like_link').get(user = self.request.user)
         users = [user for user in queryset.friends.all()]
         posts = []
         qs = None
@@ -42,12 +42,13 @@ class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
 
     def get_serializer_context(self):
         profile = Profile.objects.get(id=self.request.user.id)
-        post_ = Post.objects.filter(owner_id=self.request.user.id)
-        # like = Like.objects.get(id=self.request.user.id)
-        return {'profile': profile , 'post_': post_, 'user_id': self.request.user.id} #,'like':like
+        # post = Post.objects.get(owner_id=self.request.user.id)
+        # like = Like.objects.get(owner=profile, post_id=post.id)
+        # print(like)
+        return {'profile': profile } #,'like':like
         
 
-class PostViewSet(CreateModelMixin, GenericViewSet):
+class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     
     serializer_class = PostSerializer
 

@@ -8,25 +8,15 @@ class FriendsPostSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Post
-        fields = ['myposts','id','post_box','likes'] #,'likes'
+        fields = ['id','post_box','likes'] #,'likes' 'myposts',
 
     likes = serializers.SerializerMethodField()
-    myposts = serializers.SerializerMethodField()
+    # myposts = serializers.SerializerMethodField()
 
     def get_likes(self, post: Post):
-        profile = self.context['profile']
-        # like = self.context['like']
-        if profile in post.liked.all():
-            return True
-
-        return False
-
-    def get_myposts(self, post:Post):
-        post = self.context['post_']
-        # like = self.context['like']
-        posts = post.all().values_list('post_box')
-        
-        return posts
+        print(post.post_liked.values('value'))
+        return post.post_liked.values('value')
+    
 
 class PostSerializer(serializers.ModelSerializer):
     

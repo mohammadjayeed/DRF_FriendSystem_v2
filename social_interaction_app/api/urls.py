@@ -3,7 +3,7 @@ from . import views
 from rest_framework_nested import routers
 
 router = routers.DefaultRouter()
-router.register('postse',views.PostViewSet,basename='postse')
+router.register('self-posts',views.PostViewSet,basename='self-post')
 router.register('posts',views.FriendsPostViewSet,basename='posts')
 
 urlpatterns = [

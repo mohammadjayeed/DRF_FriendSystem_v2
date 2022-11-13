@@ -22,12 +22,12 @@ LIKE_CHOICES = (
 
 )
 class Like(models.Model):
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE,related_name='like_link')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_liked')
     value = models.CharField(choices=LIKE_CHOICES, max_length=8)
 
     def __str__(self):
-        return f"{self.owner} {self.value}D the {self.post}"
+        return f"{self.owner} {self.value}d the {self.post}"
 
 class Comment(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
