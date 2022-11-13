@@ -3,8 +3,8 @@ from . import views
 from rest_framework_nested import routers
 
 router = routers.DefaultRouter()
-router.register('posts',views.PostViewSet,basename='posts')
-router.register('friend-posts',views.FriendsPostViewSet,basename='friend-posts')
+router.register('postse',views.PostViewSet,basename='postse')
+router.register('posts',views.FriendsPostViewSet,basename='posts')
 
 urlpatterns = [
 

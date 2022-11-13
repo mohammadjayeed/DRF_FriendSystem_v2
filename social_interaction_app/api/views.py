@@ -10,9 +10,19 @@ from rest_framework.decorators import api_view
 
 from .serializers import FriendsPostSerializer
 
-class FriendsPostViewSet(ListModelMixin, GenericViewSet):
+class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
 
     serializer_class = FriendsPostSerializer
+
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return PostSerializer
+        elif self.request.method == "GET":
+            return FriendsPostSerializer
+        
+
+        
 
     def get_queryset(self):
 
@@ -34,10 +44,10 @@ class FriendsPostViewSet(ListModelMixin, GenericViewSet):
         profile = Profile.objects.get(id=self.request.user.id)
         post_ = Post.objects.filter(owner_id=self.request.user.id)
         # like = Like.objects.get(id=self.request.user.id)
-        return {'profile': profile , 'post_':post_} #,'like':like
+        return {'profile': profile , 'post_': post_, 'user_id': self.request.user.id} #,'like':like
         
 
-class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
+class PostViewSet(CreateModelMixin, GenericViewSet):
     
     serializer_class = PostSerializer
 
