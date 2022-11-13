@@ -65,18 +65,18 @@ def like_unlike_post(request,pk):
         post_object = Post.objects.get(id=pk)
         profile = Profile.objects.get(id = request.user.id)
 
-        if profile in post_object.liked.all():
-            post_object.liked.remove(profile)
+        if profile in post_object.pliked.all():
+            post_object.pliked.remove(profile)
         else:
-            post_object.liked.add(profile)
+            post_object.pliked.add(profile)
 
         like,created = Like.objects.get_or_create(owner=profile, post_id=pk)
 
         if not created:
-            if like.value == 'True':
-                like.value = 'False'
+            if like.liked == 'True':
+                like.liked = 'False'
             else:
-                like.value = 'True'
+                like.liked = 'True'
             
             post_object.save()
             like.save()

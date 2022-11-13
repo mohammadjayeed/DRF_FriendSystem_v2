@@ -56,6 +56,8 @@ def decline_invite(request,pk):
         receiver = Profile.objects.get(id=request.user.id)
         sender = Profile.objects.get(id=pk)
         friend_object = Friendship.objects.get(sender=sender,receiver=receiver )
+        sender.friends.remove(receiver.user)
+        receiver.friends.remove(sender.user)
         friend_object.delete()
 
         

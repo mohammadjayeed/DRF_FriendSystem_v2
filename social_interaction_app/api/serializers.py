@@ -25,7 +25,7 @@ class FriendsPostSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
 
     def get_likes(self, post: Post):
-        return post.post_liked.values('value')
+        return post.post_liked.values('liked')
 
     def get_comments(self, post: Post):
         return post.post_comment.values('comment_box')
