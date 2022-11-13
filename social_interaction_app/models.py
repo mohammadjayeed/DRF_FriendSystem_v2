@@ -30,7 +30,7 @@ class Like(models.Model):
         return f"{self.owner} {self.value}d the {self.post}"
 
 class Comment(models.Model):
-    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE,related_name='comment_link')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
     comment_box = models.TextField(max_length=200)
 

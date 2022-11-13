@@ -3,12 +3,32 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from social_interaction_app.models import *
 from .serializers import *
 from itertools import chain
-from rest_framework import views
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-
 from .serializers import FriendsPostSerializer
+from rest_framework.viewsets import ModelViewSet
+
+class CommentViewSet(ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def get_serializer_context(self):
+        post_object = Post.objects.get(id=self.kwargs['posts_pk'])
+        profile = Profile.objects.get(id =self.request.user.id)
+        return {'post_object':post_object , 'profile':profile}
+
+
+class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
+    
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        return Post.objects.filter(owner_id=self.request.user.id)
+
+    def get_serializer_context(self):
+        return {'user_id':self.request.user.id}
 
 class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
 
@@ -26,7 +46,11 @@ class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
 
     def get_queryset(self):
 
-        queryset = Profile.objects.prefetch_related('posts').prefetch_related('like_link').get(user = self.request.user)
+        queryset = Profile.objects.prefetch_related('posts'). \
+            prefetch_related('like_link'). \
+            prefetch_related('comment_link'). \
+            get(user = self.request.user)
+            
         users = [user for user in queryset.friends.all()]
         posts = []
         qs = None
@@ -48,15 +72,7 @@ class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
         return {'profile': profile } #,'like':like
         
 
-class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
-    
-    serializer_class = PostSerializer
 
-    def get_queryset(self):
-        return Post.objects.filter(owner_id=self.request.user.id)
-
-    def get_serializer_context(self):
-        return {'user_id':self.request.user.id}
 
 @api_view(['POST'])
 def like_unlike_post(request,pk):

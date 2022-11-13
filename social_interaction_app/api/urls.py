@@ -4,12 +4,19 @@ from rest_framework_nested import routers
 
 router = routers.DefaultRouter()
 router.register('self-posts',views.PostViewSet,basename='self-post')
-router.register('posts',views.FriendsPostViewSet,basename='posts')
+router.register('friends-posts',views.FriendsPostViewSet,basename='posts')
+
+extended_router = routers.NestedSimpleRouter(router, r'friends-posts', lookup='posts')
+extended_router.register(r'comment', views.CommentViewSet)
+
+
 
 urlpatterns = [
 
     path('',include(router.urls)),
-    path('like-unlike/<int:pk>/',views.like_unlike_post,name='like-unlike')
+    path('',include(extended_router.urls)),
+    path('friends-posts/react/<int:pk>/',views.like_unlike_post,name='react'),
+    # path('friends-posts/comment/<int:pk>/',)
    
     
 ]
