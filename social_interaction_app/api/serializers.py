@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from social_interaction_app.models import *
 from social_app import *
-from django.conf import settings
-
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,13 +15,11 @@ class CommentSerializer(serializers.ModelSerializer):
         return new_object
 
 
-
-
 class FriendsPostSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Post
-        fields = ['id','post_box','likes','comments'] #,'likes' 'myposts',
+        fields = ['id','post_box','likes','comments']
 
     likes = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()

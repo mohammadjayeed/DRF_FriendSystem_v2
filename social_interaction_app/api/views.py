@@ -3,14 +3,14 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from social_interaction_app.models import *
 from .serializers import *
 from itertools import chain
-from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .serializers import FriendsPostSerializer
-from rest_framework.viewsets import ModelViewSet
+# from rest_framework.viewsets import ModelViewSet
+# from rest_framework.generics import ListAPIView
 
-class CommentViewSet(ModelViewSet):
+class CommentViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
@@ -34,23 +34,13 @@ class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
 
     serializer_class = FriendsPostSerializer
 
-
-    # def get_serializer_class(self):
-    #     if self.request.method == "POST":
-    #         return PostSerializer
-    #     elif self.request.method == "GET":
-    #         return FriendsPostSerializer
-        
-
-        
-
     def get_queryset(self):
 
         queryset = Profile.objects.prefetch_related('posts'). \
             prefetch_related('like_link'). \
             prefetch_related('comment_link'). \
             get(user = self.request.user)
-            
+
         users = [user for user in queryset.friends.all()]
         posts = []
         qs = None
@@ -66,13 +56,8 @@ class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
 
     def get_serializer_context(self):
         profile = Profile.objects.get(id=self.request.user.id)
-        # post = Post.objects.get(owner_id=self.request.user.id)
-        # like = Like.objects.get(owner=profile, post_id=post.id)
-        # print(like)
-        return {'profile': profile } #,'like':like
+        return {'profile': profile } 
         
-
-
 
 @api_view(['POST'])
 def like_unlike_post(request,pk):
@@ -88,10 +73,10 @@ def like_unlike_post(request,pk):
         like,created = Like.objects.get_or_create(owner=profile, post_id=pk)
 
         if not created:
-            if like.value == 'Like':
-                like.value = 'Unlike'
+            if like.value == 'True':
+                like.value = 'False'
             else:
-                like.value = 'Like'
+                like.value = 'True'
             
             post_object.save()
             like.save()

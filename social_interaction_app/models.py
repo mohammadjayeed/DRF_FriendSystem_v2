@@ -1,7 +1,5 @@
 from django.db import models
 from social_app.models import *
-# Create your models here.
-
 
 class Post(models.Model):
     post_box = models.TextField()
@@ -17,8 +15,8 @@ class Post(models.Model):
         return self.post_box
 LIKE_CHOICES = (
 
-    ('Like','Like'),
-    ('Unlike','Unlike')
+    ('True','True'),
+    ('False','False')
 
 )
 class Like(models.Model):
@@ -33,6 +31,9 @@ class Comment(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE,related_name='comment_link')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
     comment_box = models.TextField(max_length=200)
+
+    def __str__(self):
+        return f"{self.comment_box}"
 
 
 

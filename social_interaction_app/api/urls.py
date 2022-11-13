@@ -10,15 +10,12 @@ extended_router = routers.NestedSimpleRouter(router, r'friends-posts', lookup='p
 extended_router.register(r'comment', views.CommentViewSet)
 
 
-
 urlpatterns = [
 
     path('',include(router.urls)),
     path('',include(extended_router.urls)),
     path('friends-posts/react/<int:pk>/',views.like_unlike_post,name='react'),
-    # path('friends-posts/comment/<int:pk>/',)
-   
-    
+     
 ]
 
 # urlpatterns  = router.urls 
