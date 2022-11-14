@@ -15,7 +15,7 @@ class ProfileViewSet(ListModelMixin, GenericViewSet):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        return Profile.objects.prefetch_related('posts').filter(user_id=self.request.user.id)
+        return Profile.objects.filter(user_id=self.request.user.id)
 
     def get_serializer_context(self):
         return {'user_id':self.request.user.id}

@@ -15,7 +15,8 @@ urlpatterns = [
     path('',include(router.urls)),
     path('',include(extended_router.urls)),
     path('friends-posts/react/<int:pk>/',views.like_unlike_post,name='react'),
-     
+   
+  
 ]
 
 # urlpatterns  = router.urls 
