@@ -9,13 +9,6 @@ class Profile(models.Model):
     
     def __str__(self):
         return str(self.user.user_name)
-# STATUS_CHOICES = {
-
-#     ('send','send'),
-#     ('accepted','accepted'),
-#     ('default','default')
-
-# }
 
 DEFAULT = 'default'
 SEND = 'send'

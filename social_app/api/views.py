@@ -37,6 +37,9 @@ class AllProfileList(generics.ListAPIView):
 
 
 
+
+
+
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 def send_invite(request,pk):
@@ -76,3 +79,22 @@ def decline_invite(request,pk):
         
     return Response(status=s.HTTP_200_OK)
 
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+def accept_invite(request,pk):
+    with transaction.atomic():
+        try:
+            receiver = Profile.objects.get(id=request.user.id)
+            sender = Profile.objects.get(id=pk)
+            friend_object = Friendship.objects.get(sender=sender,receiver=receiver)
+            
+            friend_object.status = 'accepted'
+            friend_object.save()
+
+        except Friendship.DoesNotExist:
+            return Response(status=s.HTTP_204_NO_CONTENT)
+
+        
+    return Response(status=s.HTTP_200_OK)

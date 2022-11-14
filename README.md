@@ -16,6 +16,7 @@
 ## API Reference
 ### __Authentication__
 #### __Refresh Token__ while logging out, should be provided in the request body as per JWT convention
+#### __Login Endpoint__ will provide token which is needed in the header to get authenticated
 
 |ACTIONS|HTTP METHODS|ENDPOINTS|
 |-----------------|---|--------------|
@@ -24,9 +25,6 @@
 |LOGOUT FROM AN ACCOUNT|POST|/api/logout|
 
 ### __JWT Authenticated Endpoints__
-
-
-
 
 ```bash
 get profile data of all users
@@ -52,6 +50,11 @@ decline request from a user with his user id assuming he sent a request to the a
 
   POST     
         /app/user/{user-id}/declines/ 
+
+accepts request from a user : his user id assuming he sent a request to the authenticated user
+
+  POST
+        /app/user/{user-id}/accepts/
 
 view posts created by the authenticated user
 
