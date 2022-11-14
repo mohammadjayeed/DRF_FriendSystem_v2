@@ -5,14 +5,16 @@ from .serializers import *
 from itertools import chain
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from .serializers import FriendsPostSerializer
+from rest_framework.permissions import IsAuthenticated
 # from rest_framework.viewsets import ModelViewSet
 # from rest_framework.generics import ListAPIView
 
 class CommentViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_context(self):
         post_object = Post.objects.get(id=self.kwargs['posts_pk'])
@@ -23,7 +25,7 @@ class CommentViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
 class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     
     serializer_class = PostSerializer
-
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return Post.objects.filter(owner_id=self.request.user.id)
 
@@ -33,7 +35,7 @@ class PostViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
 class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
 
     serializer_class = FriendsPostSerializer
-
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
 
         queryset = Profile.objects.prefetch_related('posts'). \
@@ -60,6 +62,7 @@ class FriendsPostViewSet(CreateModelMixin,ListModelMixin, GenericViewSet):
         
 
 @api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
 def like_unlike_post(request,pk):
     if request.method == 'POST':
         post_object = Post.objects.get(id=pk)

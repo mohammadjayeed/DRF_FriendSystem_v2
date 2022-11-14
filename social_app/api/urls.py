@@ -9,8 +9,8 @@ urlpatterns = [
 
     path('',include(router.urls)),
     path('user/',views.AllProfileList.as_view(),name='profile_list'),
-    path('invite/<int:pk>',views.send_invite,name='invite'),
-    path('decline/<int:pk>',views.decline_invite,name='decline')
+    path('user/<int:pk>/invites/',views.send_invite,name='invite'),
+    path('user/<int:pk>/declines/',views.decline_invite,name='decline')
     
 ]
 

@@ -1,9 +1,6 @@
 from django.urls import path
-from .views import RegistrationAPIView,  MyTokenObtainPairView, LogoutBlacklistTokenUpdateView, DemoView #VerifyOTPAPIView,  DemoView2,
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from .views import RegistrationAPIView,  MyTokenObtainPairView, LogoutBlacklistTokenUpdateView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 urlpatterns = [
 
@@ -14,7 +11,6 @@ urlpatterns = [
 
     path('logout/', LogoutBlacklistTokenUpdateView.as_view(), name='logout'),
     path('register/', RegistrationAPIView.as_view(), name='registration'),
-    path('experiment/',DemoView.as_view(),name='demo'),
-    # path('experiment2/',DemoView2.as_view(),name='demo2')
+    
 
 ]

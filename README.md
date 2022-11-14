@@ -14,7 +14,7 @@
 
 
 ## API Reference
-### Authentication
+### __Authentication__
 
 |ACTIONS|HTTP METHODS|ENDPOINTS|
 |-----------------|---|--------------|
@@ -22,55 +22,56 @@
 |LOGIN WITH AN ACCOUNT| POST |/api/login|
 |LOGOUT FROM AN ACCOUNT|POST|/api/logout|
 
-### JWT Authenticated Endpoints
+### __JWT Authenticated Endpoints__
 
 
-- get all profiles
+
 
 ```bash
-  GET               /app/profile  
+get profile data of all users
+
+  GET     
+        /app/user  
+
+search user by username in URL
+
+        /app/user/?search= 
+
+get friend list of logged in user
+
+  GET     
+        /app/friend
+
+invite a particular user after logging in
+
+  GET       
+        /app/user/{user-id}/invites/
+
+decline request from a user with his user id assuming he sent a request to the logged in user
+
+  POST     
+        /app/user/{user-id}/declines/ 
+
+view posts created by the logged in user
+
+  GET      
+        /feed/self-posts
+
+view friend posts with logged in user like, comment
+
+  GET       
+        /feed/friends-posts
+
+like/unlike friend posts with post id
+
+  POST     
+        /feed/friends-posts/{post-id}/likes
+
+comment on friend posts with post id
+
+  POST     
+        /feed/friends-posts/{post-id}/comments
 ```
-
-- get friend list
-
-```bash
-  GET               /app/friend  
-```
-- get all user list
-
-```bash
-  GET               /app/user  
-```
-
-- search user by username in URL
-```bash
-                    /app/user/?search=  
-```
-- invite user
-```bash
-  POST              /invite/<int:pk>  
-```
-- decline user request
-```bash
-  POST              /decline/<int:pk>  
-```
-
-
-#### CRUD Child Data
-
-|ACTIONS|HTTP METHODS|ENDPOINTS|
-|-----------------|----------------------|--------------|
-|GET ALL CHILD DATA |GET| /user/child/|
-|CREATE CHILD DATA|POST|/user/parent/{pk}/child/|
-|RETRIEVE/MODIFY INDIVIDUAL CHILD DATA|GET, PUT, PATCH, DELETE|/user/child/{id}|
-
-
-  [Documentation](https://www.dropbox.com)
-
-
-#### Repsitory Structure
-
-
 
 ## Installation
 ## Step 1 - Download and Install Python
@@ -96,7 +97,12 @@
 ```bash
   pip install -r requirement.txt
 ```
-## Step 5 - Migrations
+## Step 5 - Configure MySQL
+- Configure MySQL
+```bash
+  configure MySQL client and make necessary changes in database section of the project settings folder
+```
+## Step 6 - Migrations
 - Run the following command which creates migrations based on models or change of models
 ```bash
   python manage.py makemigrations
@@ -105,12 +111,12 @@
 ```bash
   python manage.py migrate
 ```
-## Step 6 - Superuser
+## Step 7 - Superuser
 - Run the following command to create a superuser to access admin panel by adding the required information. We will require username and password to login to the admin panel
 ```bash
   python manage.py createsuperuser
 ```
-## Step 7 - Start App
+## Step 8 - Start App
 - Start the application by typing the following command
 ```bash
   python manage.py runserver

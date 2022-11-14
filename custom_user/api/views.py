@@ -47,13 +47,13 @@ class LogoutBlacklistTokenUpdateView(APIView):
 
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class DemoView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+# class DemoView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
     
     
-    def get(self,request):
-        try:
-            return Response("accessed")
-        except Exception as e:
-            print(e)
-            return Response("no access given")
+#     def get(self,request):
+#         try:
+#             return Response("accessed")
+#         except Exception as e:
+#             print(e)
+#             return Response("no access given")

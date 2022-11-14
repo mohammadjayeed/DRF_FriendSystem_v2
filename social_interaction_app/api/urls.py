@@ -7,14 +7,14 @@ router.register('self-posts',views.PostViewSet,basename='self-post')
 router.register('friends-posts',views.FriendsPostViewSet,basename='posts')
 
 extended_router = routers.NestedSimpleRouter(router, r'friends-posts', lookup='posts')
-extended_router.register(r'comment', views.CommentViewSet)
+extended_router.register(r'comments', views.CommentViewSet)
 
 
 urlpatterns = [
 
     path('',include(router.urls)),
     path('',include(extended_router.urls)),
-    path('friends-posts/react/<int:pk>/',views.like_unlike_post,name='react'),
+    path('friends-posts/<int:pk>/likes/',views.like_unlike_post,name='react'),
    
   
 ]

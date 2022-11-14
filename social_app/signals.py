@@ -15,19 +15,11 @@ def post_save_send_friend_request(sender, instance, created, **kwargs):
     
     invite_sender = instance.sender
     invite_receiver = instance.receiver
-    # print(type(invite_sender))
-    # print(type(invite_receiver))
-    # print(invite_sender)
-    # print(invite_receiver)
-
+   
 
     if instance.status == "accepted":
         invite_sender.friends.add(invite_receiver.user)
         invite_receiver.friends.add(invite_sender.user)
         invite_sender.save()
         invite_receiver.save()
-
-# @receiver(post_delete, sender=Friendship)
-# def post_delete_decline_friend_request(sender,instance,**kwargs):
-#     object = Friendship.objects.get(instance.id)
     
