@@ -125,3 +125,7 @@ comment on friend posts with post id
 ```bash
   python manage.py runserver
 ```
+#### Project Images from Django Web Browser API
+<img src="static/images/sample.JPG" width="600">
+<img src="static/images/register.JPG" width="600">
+<img src="static/images/login.JPG" width="600">
