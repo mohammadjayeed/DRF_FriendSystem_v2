@@ -15,6 +15,7 @@
 
 ## API Reference
 ### __Authentication__
+#### __Refresh Token__ while logging out, should be provided in the request body as per JWT convention
 
 |ACTIONS|HTTP METHODS|ENDPOINTS|
 |-----------------|---|--------------|
@@ -33,31 +34,31 @@ get profile data of all users
   GET     
         /app/user  
 
-search user by username in URL
+search user by username 
 
         /app/user/?search= 
 
-get friend list of logged in user
+get friend list of authenticated user
 
   GET     
         /app/friend
 
-invite a particular user after logging in
+invite a particular authenticated user
 
   GET       
         /app/user/{user-id}/invites/
 
-decline request from a user with his user id assuming he sent a request to the logged in user
+decline request from a user with his user id assuming he sent a request to the authenticated user
 
   POST     
         /app/user/{user-id}/declines/ 
 
-view posts created by the logged in user
+view posts created by the authenticated user
 
   GET      
         /feed/self-posts
 
-view friend posts with logged in user like, comment
+view authenticated user friend posts like, comment
 
   GET       
         /feed/friends-posts

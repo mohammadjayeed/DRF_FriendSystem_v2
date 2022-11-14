@@ -58,6 +58,7 @@ def send_invite(request,pk):
 
 
 
+
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 def decline_invite(request,pk):
